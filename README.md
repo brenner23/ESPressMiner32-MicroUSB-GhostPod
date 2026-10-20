@@ -11,7 +11,18 @@
 
 Every improvement to the miner reaches both. → [Ghost Pod section](#-ghost-pod)
 
-### New in 1.1.1.003 / Ghost Pod 3.1.0.003 (pre-release, testing)
+### New in 1.1.1.004 / Ghost Pod 3.1.0.004 (pre-release, testing)
+
+- **Firmware update in the web UI** (Settings → Firmware update): upload a `firmware.bin`, mining pauses, the file is
+  checked (ESP image + board tag `ESPM32-BOARD:microusb-devkit` / `ESPM32-BOARD:ghostpod`), then the miner restarts.
+  A USB-C build is rejected – it has no rev. 1 protection and would crash this chip.
+  **Needs two app slots:** the partition table is now `min_spiffs.csv` (2 × 1.9 MB) – flash **once completely over USB**
+  (bootloader, partitions, `boot_app0`, app; `pio run -t upload` does all of it). Settings (NVS at 0x9000) are kept.
+- A restart **you** trigger (Save & restart, update) starts uptime from 0; only aborts (Wi-Fi watchdog, crash) hand it over.
+- "Save Wi-Fi 2" stores the second Wi-Fi without a restart.
+- Same as the main project v1.3.1.002 (USB-C). Hash loops unchanged.
+
+### 1.1.1.003 / Ghost Pod 3.1.0.003
 
 - **Uptime survives a restart:** after a restart *without* power loss (Wi-Fi watchdog, crash, saving the settings)
   uptime, best difficulty and found blocks continue; shares start at 0. After a power cut everything starts at 0 –

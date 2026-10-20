@@ -11,7 +11,18 @@
 
 Jede Verbesserung am Miner kommt bei beiden an. → [Abschnitt Ghost Pod](#-ghost-pod)
 
-### Neu in 1.1.1.003 / Ghost Pod 3.1.0.003 (Vorabversion, im Test)
+### Neu in 1.1.1.004 / Ghost Pod 3.1.0.004 (Vorabversion, im Test)
+
+- **Firmware-Update über die Weboberfläche** (Settings → Firmware update): `firmware.bin` hochladen, das Mining pausiert,
+  die Datei wird geprüft (ESP-Image + Board-Kennung `ESPM32-BOARD:microusb-devkit` / `ESPM32-BOARD:ghostpod`), dann
+  Neustart. Eine USB-C-Firmware wird abgelehnt – sie hat keinen Rev.-1-Schutz und würde auf diesem Chip abstürzen.
+  **Braucht zwei App-Bereiche:** Partitionstabelle jetzt `min_spiffs.csv` (2 × 1,9 MB) – **einmal komplett per USB**
+  flashen (Bootloader, Partitionen, `boot_app0`, App; `pio run -t upload` macht alles). Einstellungen (NVS 0x9000) bleiben.
+- Ein Neustart durch **dich** (Save & restart, Update) beginnt bei Betriebszeit 0; nur Abbrüche (WLAN-Wächter, Absturz) übergeben.
+- „Save Wi-Fi 2“ speichert das zweite WLAN ohne Neustart.
+- Gleicher Stand wie das Hauptprojekt v1.3.1.002 (USB-C). Hash-Schleifen unverändert.
+
+### 1.1.1.003 / Ghost Pod 3.1.0.003
 
 - **Betriebszeit übersteht Neustarts:** Nach einem Neustart *ohne* Stromtrennung (WLAN-Wächter, Absturz, Speichern der
   Einstellungen) laufen Betriebszeit, Best Diff und Blockfunde weiter; Shares beginnen bei 0. Nach einer Stromtrennung

@@ -19,11 +19,11 @@
 #elif DIAG_NET
 #define MINER_VERSION     "1.1.0.007-diag"   // Test-Build: Netz-Diagnose /api/diag (10-Minuten-Fehlerschub)
 #elif GHOST_POD
-#define MINER_VERSION     "3.1.0.003"   // Ghost Pod: .003 Wi-Fi 2, Schnell-Setup (nur WLAN), Klapp-Abschnitte. .002 Neustart-Uebergabe + Pool-Tausch. .001 Unterbau von 1.1.1 (Hash-Schleife Rev. 1 ~1006 kH/s, WLAN-Waechter), Geister-Funktionen wie 3.0.0
+#define MINER_VERSION     "3.1.0.004"   // Ghost Pod: .004 aus USB-C 1.3.1.002: Firmware-Upload im Web, Neustart durch Nutzer ohne Uebergabe, Wi-Fi 2 speichern ohne Neustart. .003 Wi-Fi 2, Schnell-Setup (nur WLAN), Klapp-Abschnitte. .002 Neustart-Uebergabe + Pool-Tausch. .001 Unterbau von 1.1.1 (Hash-Schleife Rev. 1 ~1006 kH/s, WLAN-Waechter), Geister-Funktionen wie 3.0.0
 #else
-#define MINER_VERSION     "1.1.1.003"   // .003: Wi-Fi 2 (wird mitgeprueft), Schnell-Setup ohne Pool, Settings-Abschnitte aufklappbar (Zustand im NVS). .002: Neustart-Uebergabe (Betriebszeit, Best Diff, Blocks; Shares ab 0), Knopf Primary<->Secondary tauschen. .001: Ghost Pod als Bauvariante (env:ghostpod) im selben Projekt; Miner-Code = 1.1.1
+#define MINER_VERSION     "1.1.1.004"   // .004 aus USB-C 1.3.1.002: Firmware-Upload im Web (Mining pausiert, Board-Kennung), Neustart durch Nutzer ohne Uebergabe, Wi-Fi 2 speichern ohne Neustart. .003: Wi-Fi 2 (wird mitgeprueft), Schnell-Setup ohne Pool, Settings-Abschnitte aufklappbar (Zustand im NVS). .002: Neustart-Uebergabe (Betriebszeit, Best Diff, Blocks; Shares ab 0), Knopf Primary<->Secondary tauschen. .001: Ghost Pod als Bauvariante (env:ghostpod) im selben Projekt; Miner-Code = 1.1.1
 #endif
-#define MINER_REPO_URL    "https://github.com/brenner23/ESPressMiner32-DevKitC-MicroUSB"
+#define MINER_REPO_URL    "https://github.com/brenner23/ESPressMiner32-MicroUSB-GhostPod"
 
 // ---- Anzeige: Fehler aus WLAN-Wellen (ab v1.1.1, wie USB-C v1.3.1) -----------------------------
 // SHOW_WAVE_ERRORS 0 = Dashboard und Konsole zeigen nur die Fehler der Hash-Schleife: "4 discarded"
@@ -167,6 +167,18 @@
 #define LED_PIN                  -1
 #else
 #define LED_PIN                  13
+#endif
+
+// Firmware-Upload ueber die Weboberflaeche (ab 1.1.1.004, wie USB-C 1.3.1.002). Braucht zwei App-Bereiche
+// (platformio.ini: min_spiffs.csv). Die Datei muss die Kennung FW_BOARD_TAG enthalten (falsches Board -> abgelehnt):
+// USB-C-Firmware hat keinen Rev.-1-Schutz und wuerde hier abstuerzen, Ghost Pod und normaler Miner nutzen andere Pins.
+#ifndef WEB_UPDATE_ENABLE
+#define WEB_UPDATE_ENABLE        1
+#endif
+#if GHOST_POD
+#define FW_BOARD_TAG             "ESPM32-BOARD:ghostpod"
+#else
+#define FW_BOARD_TAG             "ESPM32-BOARD:microusb-devkit"
 #endif
 
 // BOOT-Taste 5 s halten = Einstellungen loeschen. Ghost Pod: AUS (Wattebausch auf BOOT beim Flashen)

@@ -3,6 +3,14 @@
 Messwerte: ESP32-D0WDQ6 **Rev. 1.0**, 240 MHz, ESP32-DevKitC 38-Pin (Micro-USB, CP2102), eigener Stratum-Pool,
 Software-Miner auf Core 0 an. Details je Schritt: [MESSPROTOKOLL.md](MESSPROTOKOLL.md).
 
+## v1.1.1.004 + Ghost Pod 3.1.0.004 (2026-10-20) – Vorabversion, aus USB-C 1.3.1.002
+- **Firmware-Upload im Web** (`/api/update`, Mining pausiert, Prüfung 0xE9-Kopf + `FW_BOARD_TAG`:
+  `ESPM32-BOARD:microusb-devkit` bzw. `ESPM32-BOARD:ghostpod`), Partitionen `min_spiffs.csv` (einmal komplett per USB).
+- Neustart durch Nutzer (Save & restart, Update, Konsole restart/reset) → `handover::forget()`, keine Übergabe.
+- „Save Wi-Fi 2“ (`/api/wifi2`) ohne Neustart. `MINER_REPO_URL` → neues Repo.
+- Hash-Schleifen: esp32dev = v1.1.1, ghostpod = 3.1.0.001 (geprüft). Ghost Pod .42 nach Komplett-Flash: **1005,2 kH/s**,
+  Einstellungen erhalten.
+
 ## v1.1.1.003 + Ghost Pod 3.1.0.003 (2026-10-20) – Vorabversion, ein Projekt für beide
 - **Ghost Pod ist jetzt eine Bauvariante dieses Projekts** (`env:ghostpod`, Schalter `GHOST_POD=1`): `ghost.cpp/.h`,
   `ghost_config.h` (Pins, Geister-Stufen), `web_page_ghost.h` (Geister-Panel). Früher eigenes Repo auf Basis v1.0.0.
